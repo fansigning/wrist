@@ -68,19 +68,3 @@ volumeBtn.addEventListener('click', () => {
         volumeBtn.classList.add('mdi-volume-high');
     }
 });
-
-overlay.addEventListener('click', () => {
-    audio.play().then(() => {
-        playBtn.classList.replace('mdi-play', 'mdi-pause');
-        overlay.classList.replace('opacity-100', 'opacity-0');
-
-        overlay.style.pointerEvents = 'none';
-
-        setTimeout(() => {
-            overlay.style.display = 'none';
-        }, 700);
-
-    }).catch((error) => {
-        console.error("Autoplay was blocked, user action required.");
-    });
-});

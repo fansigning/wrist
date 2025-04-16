@@ -1,0 +1,42 @@
+  body {
+    background: linear-gradient(to bottom, #000000, #070707);
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .star {
+    position: absolute;
+    border-radius: 50%;
+    background: #a3a3ff;
+    opacity: 0.8;
+    pointer-events: none;
+    animation: moveStars 10s linear infinite;
+  }
+
+  @keyframes moveStars {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(var(--randomX), var(--randomY));
+    }
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    height: 16px;
+    width: 16px;
+    background: #fff; 
+    border-radius: 9999px;
+    cursor: pointer;
+    margin-top: -6px; 
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    height: 16px;
+    width: 16px;
+    background: #fff;
+    border-radius: 9999px;
+    cursor: pointer;
+  }

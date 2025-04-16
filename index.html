@@ -1,45 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>^,.,^</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <style>
-      body {
-        background: linear-gradient(to bottom, #000000, #190020);
-        min-height: 100vh;
-        overflow: hidden;
-        position: relative;
-      }
 
-      .star {
-        position: absolute;
-        border-radius: 50%;
-        background: #a3a3ff;
-        opacity: 0.8;
-        pointer-events: none;
-        animation: moveStars 10s linear infinite;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>^,.,^</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
 
-      @keyframes moveStars {
-        0% {
-          transform: translate(0, 0);
-        }
-        100% {
-          transform: translate(var(--randomX), var(--randomY));
-        }
-      }
-    </style>
-  </head>
-  <body class="flex flex-col items-center justify-center min-h-screen">
-    <h1 class="text-6xl font-bold text-white">wrist.sh</h1>
-    <p class="text-gray-400 text-sm mt-3 text-center max-w-sm leading-relaxed">
-      I do not condone self-harm in any way. If you or someone you know is struggling, 
-      please don't hesitate to reach out for help. You can find support resources 
-      <a href="https://findahelpline.com/" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">here</a>.  
-      You are not alone, and help is available.
-    </p>
-    <script src="stars.js"></script>
-  </body>
+<body class="min-h-screen flex items-center justify-center">
+  <!-- Overlay -->
+  <div id="overlay"
+    class="opacity-100 fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center transition-opacity duration-700 cursor-pointer">
+    <p class="text-white text-3xl font-bold">click <span class="text-[#6200a8]">^,.,^</span></p>
+  </div>
+  <!-- bla bla -->
+  <div class="h-screen w-full flex justify-center items-center">
+    <div class="relative inline-flex p-8 w-full justify-center">
+      <div
+        class="relative bg-black rounded-xl p-8 shadow-[0_0_40px_20px_rgba(52,0,89,0.7)] transition-all duration-200 group hover:shadow-[0_0_50px_25px_rgba(52,0,89,1)] cursor-default text-center font-serif text-white w-full max-w-5xl">
+        <img id="discord-pfp" alt="pfp"
+          class="w-32 h-32 rounded-full mx-auto mb-6 shadow-[0_0_20px_10px_rgba(52,0,89,0.5)]" />
+        <h1 id="discord-name" class="text-5xl"></h1>
+        <p class="text-2xl mt-4">I held onto <span class="text-[#6200a8]">hope</span>, even when you let go.</p>
+        <div class="mt-8 w-full bg-black rounded-xl p-4 flex flex-col items-center justify-center text-white text-sm">
+          <div class="flex flex-col items-center w-full text-lg">
+            <span class="mb-4" id="song-title">overseas - Ken Carson</span>
+            <input type="range" id="progress" value="0" class="w-[50%] appearance-none h-2 bg-white rounded-full">
+            <div class="flex justify-between w-[50%] text-sm mt-1">
+              <span id="current-time">00:00</span>
+              <span id="duration">00:00</span>
+            </div>
+          </div>
+          <div class="flex items-center space-x-2 w-full justify-center text-2xl">
+            <button id="prev" class="mdi mdi-skip-previous"></button>
+            <button id="play" class="mdi mdi-play"></button>
+            <button id="next" class="mdi mdi-skip-next"></button>
+            <button id="volume-btn" class="mdi mdi-volume-high"></button>
+          </div>
+          <audio id="audio" src="overseas.mp3"></audio>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="music.js"></script>
+  <script src="dc.js"></script>
+  <script src="stars.js" defer></script>
+</body>
+
 </html>

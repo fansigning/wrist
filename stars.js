@@ -15,6 +15,7 @@ function generateStars(num) {
     star.style.setProperty("--randomX", `${randomX}px`);
     star.style.setProperty("--randomY", `${randomY}px`);
     star.classList.add("star");
+    star.classlist.add("z-60");
     star.style.width = `${size}px`;
     star.style.height = `${size}px`;
     star.style.left = `${posX}px`;

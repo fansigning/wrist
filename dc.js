@@ -1,3 +1,4 @@
+// dc.js
 const overlay = document.getElementById('overlay');
 const discordPfp = document.getElementById('discord-pfp');
 const click = document.getElementById('click');
@@ -17,11 +18,17 @@ fetch('https://stash.seraph.si/discord/user/1239374720693178398')
     document.getElementById('discord-name').textContent = 'failed to load';
   });
 
+// Overlay
 overlay.addEventListener('click', () => {
-  overlay.classList.replace('bg-black/80', 'bg-black/0'); 
+  overlay.classList.replace('bg-black/80', 'bg-black/0');
   overlay.classList.remove('backdrop-blur-sm');
   overlay.classList.add('pointer-events-none');
   click.classList.add('opacity-0');
+
+  // autoplay
+  if (typeof autoplayMusic === 'function') {
+    autoplayMusic();
+  }
 
   setTimeout(() => {
     overlay.classList.add('hidden');

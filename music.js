@@ -1,77 +1,115 @@
-const audio = document.getElementById('audio');
-const playBtn = document.getElementById('play');
-const progress = document.getElementById('progress');
-const currentTimeEl = document.getElementById('current-time');
-const durationEl = document.getElementById('duration');
-const volumeBtn = document.getElementById('volume-btn');
+// music.js
+const audio = document.getElementById("audio");
+const playBtn = document.getElementById("play");
+const progress = document.getElementById("progress");
+const currentTimeEl = document.getElementById("current-time");
+const durationEl = document.getElementById("duration");
+const volumeBtn = document.getElementById("volume-btn");
+const songTitle = document.getElementById("song-title");
+const songTitle2 = document.getElementById("song-title2");
+const songTitle3 = document.getElementById("song-title3");
 
-let audioContext;
-let analyser;
+const songs = [
+  {
+    title: "overseas - Ken Carson",
+    src: "mp3/overseas.mp3",
+    element: songTitle,
+  },
+  { title: "south - jaydes", src: "mp3/south.mp3", element: songTitle2 },
+  { title: "potent - otuka", src: "mp3/potent.mp3", element: songTitle3 },
+];
 
-// format time
+let currentSongIndex = 0;
+
+// Autoplay
+function autoplayMusic() {
+  audio
+    .play()
+    .then(() => {
+      playBtn.classList.replace("mdi-play", "mdi-pause");
+    })
+    .catch((error) => {
+      console.error("Autoplay blocked.");
+    });
+}
+
+// Format time
 function formatTime(seconds) {
   const mins = Math.floor(seconds / 60);
   const secs = Math.floor(seconds % 60);
-  return `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+  return `${mins < 10 ? "0" : ""}${mins}:${secs < 10 ? "0" : ""}${secs}`;
 }
 
-// time updates
-audio.addEventListener('loadedmetadata', () => {
+// Time updates
+audio.addEventListener("loadedmetadata", () => {
   durationEl.textContent = formatTime(audio.duration);
   progress.max = audio.duration;
 });
 
-audio.addEventListener('timeupdate', () => {
+audio.addEventListener("timeupdate", () => {
   progress.value = audio.currentTime;
   currentTimeEl.textContent = formatTime(audio.currentTime);
 });
 
-progress.addEventListener('input', () => {
+progress.addEventListener("input", () => {
   audio.currentTime = progress.value;
 });
 
-playBtn.addEventListener('click', () => {
+playBtn.addEventListener("click", () => {
   if (audio.paused) {
     audio.play();
-    playBtn.classList.replace('mdi-play', 'mdi-pause');
+    playBtn.classList.replace("mdi-play", "mdi-pause");
   } else {
     audio.pause();
-    playBtn.classList.replace('mdi-pause', 'mdi-play');
+    playBtn.classList.replace("mdi-pause", "mdi-play");
   }
 });
 
 // Volume button
-volumeBtn.addEventListener('click', () => {
+volumeBtn.addEventListener("click", () => {
   audio.muted = !audio.muted;
 
   if (audio.muted) {
-    volumeBtn.classList.replace('mdi-volume-high', 'mdi-volume-off');
+    volumeBtn.classList.replace("mdi-volume-high", "mdi-volume-off");
   } else {
-    volumeBtn.classList.replace('mdi-volume-off', 'mdi-volume-high');
+    volumeBtn.classList.replace("mdi-volume-off", "mdi-volume-high");
   }
 });
 
 audio.volume = 0.13;
 
-overlay.addEventListener('click', () => {
-  if (!audioContext) {
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    analyser = audioContext.createAnalyser();
-    const sourceNode = audioContext.createMediaElementSource(audio);
+// next
+function nextSong() {
+  currentSongIndex = (currentSongIndex + 1) % songs.length;
+  loadSong(currentSongIndex);
+}
 
-    const bassBoost = audioContext.createBiquadFilter();
-    bassBoost.type = "lowshelf";
-    bassBoost.frequency.setValueAtTime(100, audioContext.currentTime);
-    bassBoost.gain.setValueAtTime(15, audioContext.currentTime);
+// previous
+function prevSong() {
+  currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+  loadSong(currentSongIndex);
+}
 
-    sourceNode.connect(bassBoost);
-    bassBoost.connect(analyser);
-    analyser.connect(audioContext.destination);
-  }
+// Load
+function loadSong(index) {
+  songTitle.classList.add("hidden");
+  songTitle2.classList.add("hidden");
+  songTitle3.classList.add("hidden");
 
-  audio.play().then(() => {
-    playBtn.classList.replace('mdi-play', 'mdi-pause');
-  }).catch((error) => {
-    console.error("Autoplay blocked.");
-  });
+  // song title
+  songs[index].element.classList.remove("hidden");
+  songTitle.textContent = songs[index].title;
+
+  // audio source
+  audio.src = songs[index].src;
+  audio.play();
+  playBtn.classList.replace("mdi-play", "mdi-pause");
+}
+
+audio.addEventListener("ended", () => {
+  nextSong();
 });
+
+// next, previous
+document.getElementById("next").addEventListener("click", nextSong);
+document.getElementById("prev").addEventListener("click", prevSong);

@@ -4,7 +4,6 @@ const progress = document.getElementById('progress');
 const currentTimeEl = document.getElementById('current-time');
 const durationEl = document.getElementById('duration');
 const volumeBtn = document.getElementById('volume-btn');
-const overlay = document.getElementById('overlay');
 
 let audioContext;
 let analyser;
@@ -52,6 +51,8 @@ volumeBtn.addEventListener('click', () => {
   }
 });
 
+audio.volume = 0.13;
+
 overlay.addEventListener('click', () => {
   if (!audioContext) {
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -70,15 +71,7 @@ overlay.addEventListener('click', () => {
 
   audio.play().then(() => {
     playBtn.classList.replace('mdi-play', 'mdi-pause');
-    overlay.classList.replace('opacity-100', 'opacity-0');
-    overlay.style.pointerEvents = 'none';
-
-    setTimeout(() => {
-      overlay.style.display = 'none';
-    }, 700);
   }).catch((error) => {
     console.error("Autoplay blocked.");
   });
 });
-
-audio.volume = 0.13;

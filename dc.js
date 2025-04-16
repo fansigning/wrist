@@ -17,15 +17,16 @@ fetch('https://stash.seraph.si/discord/user/1239374720693178398')
 
 // overlay
 overlay.addEventListener('click', () => {
+    audio.load(); // ios fix
     audio.play().then(() => {
-        playBtn.classList.replace('mdi-play', 'mdi-pause');
-        overlay.classList.replace('opacity-100', 'opacity-0');
-        overlay.style.pointerEvents = 'none';
-
-        setTimeout(() => {
-            overlay.style.display = 'none';
-        }, 700);  
+      playBtn.classList.replace('mdi-play', 'mdi-pause');
+      overlay.classList.replace('opacity-100', 'opacity-0');
+      overlay.style.pointerEvents = 'none';
+      setTimeout(() => {
+        overlay.style.display = 'none';
+      }, 700);
     }).catch((error) => {
-        console.error("Autoplay was blocked, user action required.");
+      console.error("Autoplay was blocked:", error);
     });
-});
+  });
+  

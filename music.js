@@ -14,7 +14,7 @@ let currentSongIndex = 0;
 const songs = [
   { title: 'overseas - Ken Carson', file: 'mp3/overseas.mp3' },
   { title: 'south - jaydes', file: 'mp3/south.mp3' },
-  { title: 'potent - otuka', file: 'mp3/potent.mp3' },
+  { title: 'potent - otuka', file: 'mp3/potent.mp3' }
 ];
 
 // Format time
@@ -51,10 +51,9 @@ playBtn.addEventListener('click', () => {
   }
 });
 
-// Volume
+// Volume toggle
 volumeBtn.addEventListener('click', () => {
   audio.muted = !audio.muted;
-
   if (audio.muted) {
     volumeBtn.classList.replace('mdi-volume-high', 'mdi-volume-off');
   } else {
@@ -62,30 +61,25 @@ volumeBtn.addEventListener('click', () => {
   }
 });
 
+// Default volume
 audio.volume = 0.01;
 
-// next
+// Next / previous
 function nextSong() {
   currentSongIndex = (currentSongIndex + 1) % songs.length;
   updateSong();
-  audio.play().then(() => {
-    playBtn.classList.replace('mdi-play', 'mdi-pause');
-  }).catch((error) => {
-    console.error("Autoplay blocked.");
-  });
+  audio.play().then(() => playBtn.classList.replace('mdi-play', 'mdi-pause'))
+    .catch(() => console.error("Autoplay blocked."));
 }
 
-// previous
 function prevSong() {
   currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
   updateSong();
-  audio.play().then(() => {
-    playBtn.classList.replace('mdi-play', 'mdi-pause');
-  }).catch((error) => {
-    console.error("Autoplay blocked.");
-  });
+  audio.play().then(() => playBtn.classList.replace('mdi-play', 'mdi-pause'))
+    .catch(() => console.error("Autoplay blocked."));
 }
 
+// Update song details
 function updateSong() {
   const currentSong = songs[currentSongIndex];
   audio.src = currentSong.file;
@@ -94,22 +88,20 @@ function updateSong() {
   songTitle3.textContent = currentSong.title === songs[2].title ? 'Potent - Otuka' : '';
 }
 
+// Autoplay
 audio.addEventListener('ended', nextSong);
 
 function autoplayMusic() {
   if (audio.paused) {
     updateSong();
-    audio.play().then(() => {
-      playBtn.classList.replace('mdi-play', 'mdi-pause');
-    }).catch((error) => {
-      console.error("Autoplay blocked.");
-    });
+    audio.play().then(() => playBtn.classList.replace('mdi-play', 'mdi-pause'))
+      .catch(() => console.error("Autoplay blocked."));
   }
 }
 
+// Controls
 nextBtn.addEventListener('click', nextSong);
 prevBtn.addEventListener('click', prevSong);
 
+// Init
 updateSong();
-
-

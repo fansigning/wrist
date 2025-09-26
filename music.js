@@ -62,7 +62,7 @@ volumeBtn.addEventListener('click', () => {
   }
 });
 
-audio.volume = 0.05;
+audio.volume = 0.01;
 
 // next
 function nextSong() {
@@ -111,4 +111,5 @@ nextBtn.addEventListener('click', nextSong);
 prevBtn.addEventListener('click', prevSong);
 
 updateSong();
+
 
